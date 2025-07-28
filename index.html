@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Message Test</title>
+</head>
+<body>
+    <h1>App Message Test</h1>
+    
+    <div>
+        <h2>Brand Numbers (콤마로 구분)</h2>
+        <input type="text" id="brandNo" placeholder="1234,5678,1212" style="width: 300px;">
+    </div>
+    
+    <div>
+        <h2>Series Numbers (콤마로 구분)</h2>
+        <input type="text" id="seriesNo" placeholder="1234,5678,1212" style="width: 300px;">
+    </div>
+    
+    <div>
+        <h2>Gender</h2>
+        <select id="gender">
+            <option value="M">M (남성)</option>
+            <option value="F">F (여성)</option>
+        </select>
+    </div>
+    
+    <br>
+    
+    <button onclick="sendToIOS()">iOS로 전송</button>
+    <button onclick="sendToAndroid()">Android로 전송</button>
+    
+    <h3>전송된 데이터:</h3>
+    <pre id="output"></pre>
+
+    <script>
+        function sendToIOS() {
+            const data = {
+                brandNo: document.getElementById('brandNo').value,
+                seriesNo: document.getElementById('seriesNo').value,
+                gender: document.getElementById('gender').value
+            };
+            
+            document.getElementById('output').textContent = 'iOS 전송:\n' + JSON.stringify(data, null, 2);
+            
+            // iOS 전송 로직 (실제로는 useReqeustAppMessage 사용)
+            console.log('requestCollectionFacet to iOS:', data);
+        }
+        
+        function sendToAndroid() {
+            const brandNo = document.getElementById('brandNo').value;
+            const seriesNo = document.getElementById('seriesNo').value;
+            const gender = document.getElementById('gender').value;
+            
+            const data = {
+                brandNo: brandNo.split(',').map(s => s.trim()),
+                seriesNo: seriesNo.split(',').map(s => s.trim()),
+                gender: [gender]
+            };
+            
+            document.getElementById('output').textContent = 'Android 전송:\n' + JSON.stringify(data, null, 2);
+            
+            // Android 전송 로직 (실제로는 useReceiveMessage로 수신)
+            console.log('requestCollectionFacet to Android:', data);
+        }
+    </script>
+</body>
+</html>
