@@ -44,15 +44,22 @@
             
             document.getElementById('output').textContent = 'iOS 전송:\n' + JSON.stringify(data, null, 2);
             
+            // iOS 디버깅 정보
+            console.log('window.webkit:', window.webkit);
+            console.log('window.webkit.messageHandlers:', window.webkit?.messageHandlers);
+            console.log('ios29cm handler:', window.webkit?.messageHandlers?.ios29cm);
+            
             // iOS WebView로 메시지 전송
             if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.ios29cm) {
+                console.log('iOS 메시지 전송 시도:', data);
                 window.webkit.messageHandlers.ios29cm.postMessage({
                     type: 'requestCollectionFacet',
                     payload: data
                 });
+                alert('iOS로 메시지 전송 완료');
             } else {
                 console.log('ios29cm interface not found');
-                alert('iOS WebView에서만 동작합니다.');
+                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\nios29cm: ' + !!(window.webkit?.messageHandlers?.ios29cm));
             }
         }
         
@@ -69,15 +76,18 @@
             
             document.getElementById('output').textContent = 'Android 전송:\n' + JSON.stringify(data, null, 2);
             
+            // Android 디버깅 정보
+            console.log('window.android29cm:', window.android29cm);
+            console.log('postMessage function:', window.android29cm?.postMessage);
+            
             // Android WebView로 메시지 전송
-            if (window.android29cm && window.android29cm.postMessage) {
-                window.android29cm.postMessage(JSON.stringify({
-                    type: 'requestCollectionFacet',
-                    payload: data
-                }));
+            if (window.android29cm && window.android29cm.requestCollectionFacet) {
+                console.log('Android 메시지 전송 시도:', data);
+                window.android29cm.requestCollectionFacet(JSON.stringify(data));
+                alert('Android로 메시지 전송 완료');
             } else {
                 console.log('android29cm interface not found');
-                alert('Android WebView에서만 동작합니다.');
+                alert('Android WebView에서만 동작합니다.\nandroid29cm: ' + !!window.android29cm + '\nrequestCollectionFacet: ' + !!(window.android29cm?.requestCollectionFacet));
             }
         }
     </script>
