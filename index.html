@@ -48,10 +48,18 @@
 
     <script>
         function sendToIOS() {
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const brandNo = document.getElementById('brands').value;
+            const seriesNo = document.getElementById('series').value;
+            const collectionId = document.getElementById('collectionId').value;
+            const gender = document.getElementById('gender').value;
+            
             const data = {
-                brandNo: document.getElementById('brandNo').value,
-                seriesNo: document.getElementById('seriesNo').value,
-                gender: document.getElementById('gender').value
+                type: type,
+                brandNo: brandNo,
+                seriesNo: seriesNo,
+                collectionId: collectionId,
+                gender: gender
             };
             
             document.getElementById('output').textContent = 'iOS 전송:\n' + JSON.stringify(data, null, 2);
@@ -63,10 +71,10 @@
             
             // iOS WebView로 메시지 전송
             if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.ios29cm) {
-                console.log('iOS 메시지 전송 시도:', data);
+                console.log('iOS 메시지 전송 시도:', JSON.stringify(data));
                 window.webkit.messageHandlers.ios29cm.postMessage({
                     type: 'requestCollectionFacet',
-                    payload: data
+                    payload: JSON.stringify(data)
                 });
                 alert('iOS로 메시지 전송 완료');
             } else {
@@ -76,25 +84,29 @@
         }
         
         function sendToAndroid() {
-            const brandNo = document.getElementById('brandNo').value;
-            const seriesNo = document.getElementById('seriesNo').value;
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const brandNo = document.getElementById('brands').value;
+            const seriesNo = document.getElementById('series').value;
+            const collectionId = document.getElementById('collectionId').value;
             const gender = document.getElementById('gender').value;
             
             const data = {
-                brandNo: brandNo.split(',').map(s => s.trim()),
-                seriesNo: seriesNo.split(',').map(s => s.trim()),
-                gender: [gender]
+                type: type,
+                brandNo: brandNo,
+                seriesNo: seriesNo,
+                collectionId: collectionId,
+                gender: gender
             };
             
             document.getElementById('output').textContent = 'Android 전송:\n' + JSON.stringify(data, null, 2);
             
             // Android 디버깅 정보
             console.log('window.android29cm:', window.android29cm);
-            console.log('postMessage function:', window.android29cm?.postMessage);
+            console.log('requestCollectionFacet function:', window.android29cm?.requestCollectionFacet);
             
             // Android WebView로 메시지 전송
             if (window.android29cm && window.android29cm.requestCollectionFacet) {
-                console.log('Android 메시지 전송 시도:', data);
+                console.log('Android 메시지 전송 시도:', JSON.stringify(data));
                 window.android29cm.requestCollectionFacet(JSON.stringify(data));
                 alert('Android로 메시지 전송 완료');
             } else {
