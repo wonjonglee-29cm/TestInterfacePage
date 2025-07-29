@@ -67,19 +67,19 @@
             // iOS 디버깅 정보
             console.log('window.webkit:', window.webkit);
             console.log('window.webkit.messageHandlers:', window.webkit?.messageHandlers);
-            console.log('ios29cm handler:', window.webkit?.messageHandlers?.ios29cm);
+            console.log('app29cm handler:', window.webkit?.messageHandlers?.app29cm);
             
             // iOS WebView로 메시지 전송
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.ios29cm) {
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.app29cm) {
                 console.log('iOS 메시지 전송 시도:', JSON.stringify(data));
-                window.webkit.messageHandlers.ios29cm.postMessage({
+                window.webkit.messageHandlers.app29cm.postMessage({
                     type: 'requestCollectionFacet',
                     payload: JSON.stringify(data)
                 });
                 alert('iOS로 메시지 전송 완료');
             } else {
-                console.log('ios29cm interface not found');
-                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\nios29cm: ' + !!(window.webkit?.messageHandlers?.ios29cm));
+                console.log('app29cm interface not found');
+                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\app29cm: ' + !!(window.webkit?.messageHandlers?.app29cm));
             }
         }
         
