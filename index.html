@@ -63,19 +63,26 @@
             // iOS 디버깅 정보
             console.log('window.webkit:', window.webkit);
             console.log('window.webkit.messageHandlers:', window.webkit?.messageHandlers);
-            console.log('app29cm handler:', window.webkit?.messageHandlers?.app29cm);
+            console.log('requestCollectionFacet handler:', window.webkit?.messageHandlers?.requestCollectionFacet);
             
             // iOS WebView로 메시지 전송
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.app29cm) {
-                console.log('iOS 메시지 전송 시도:', JSON.stringify(data));
-                window.webkit.messageHandlers.app29cm.postMessage({
-                    type: 'requestCollectionFacet',
-                    payload: JSON.stringify(data)
-                });
-                alert('iOS로 메시지 전송 완료');
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.requestCollectionFacet) {
+                try {
+                    console.log('iOS 메시지 전송 시도:', JSON.stringify(data));
+                    // iOS handler는 [String: String] 형태를 기대하므로 data의 모든 값을 문자열로 변환
+                    const stringData = {};
+                    for (const [key, value] of Object.entries(data)) {
+                        stringData[key] = String(value);
+                    }
+                    window.webkit.messageHandlers.requestCollectionFacet.postMessage(stringData);
+                    alert('iOS로 메시지 전송 완료');
+                } catch (error) {
+                    console.error('postMessage 오류:', error);
+                    alert('메시지 전송 중 오류 발생: ' + error.message);
+                }
             } else {
-                console.log('app29cm interface not found');
-                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\app29cm: ' + !!(window.webkit?.messageHandlers?.app29cm));
+                console.log('requestCollectionFacet interface not found');
+                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\nrequestCollectionFacet: ' + !!(window.webkit?.messageHandlers?.requestCollectionFacet));
             }
         }
         
