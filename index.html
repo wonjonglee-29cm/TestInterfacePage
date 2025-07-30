@@ -75,7 +75,7 @@
                 alert('iOS로 메시지 전송 완료');
             } else {
                 console.log('app29cm interface not found');
-                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\app29cm: ' + !!(window.webkit?.messageHandlers?.app29cm));
+                alert('iOS WebView에서만 동작합니다.\nwebkit: ' + !!window.webkit + '\nmessageHandlers: ' + !!(window.webkit?.messageHandlers) + '\napp29cm: ' + !!(window.webkit?.messageHandlers?.app29cm));
             }
         }
         
