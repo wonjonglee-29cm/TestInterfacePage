@@ -9,25 +9,23 @@
     <h1>App Message Test</h1>
     
     <div>
-        <h2>Type 선택 (1개만 선택)</h2>
-        <label><input type="radio" name="type" value="brand" id="typeBrand" checked> brand</label>
-        <label style="margin-left: 20px;"><input type="radio" name="type" value="series" id="typeSeries"> series</label>
-        <label style="margin-left: 20px;"><input type="radio" name="type" value="gender" id="typeGender"> gender</label>
+        <h2>Selected Facet 선택 (1개만 선택)</h2>
+        <label><input type="radio" name="selectedFacet" value="brand" id="facetBrand" checked> brand</label>
+        <label style="margin-left: 20px;"><input type="radio" name="selectedFacet" value="gender" id="facetGender"> gender</label>
     </div>
     
     <div>
-        <h2>Brand Numbers (콤마로 구분)</h2>
-        <input type="text" id="brands" placeholder="1234,5678,1212" style="width: 300px;">
+        <h2>Searchable Brands (콤마로 구분)</h2>
+        <input type="text" id="searchableBrands" placeholder="1234,5678,1212" style="width: 300px;">
     </div>
     
+
     <div>
-        <h2>Series Numbers (콤마로 구분)</h2>
-        <input type="text" id="series" placeholder="1234,5678,1212" style="width: 300px;">
-    </div>
-    
-    <div>
-        <h2>Collection ID</h2>
-        <input type="text" id="collectionId" placeholder="9876" style="width: 300px;">
+        <h2>Screen</h2>
+        <select id="screen">
+            <option value="collection_list">collection_list</option>
+            <option value="collection_products">collection_products</option>
+        </select>
     </div>
     
     <div>
@@ -48,17 +46,15 @@
 
     <script>
         function sendToIOS() {
-            const type = document.querySelector('input[name="type"]:checked').value;
-            const brandNo = document.getElementById('brands').value;
-            const seriesNo = document.getElementById('series').value;
-            const collectionId = document.getElementById('collectionId').value;
+            const selectedFacet = document.querySelector('input[name="selectedFacet"]:checked').value;
+            const searchableBrands = document.getElementById('searchableBrands').value;
+            const screen = document.getElementById('screen').value;
             const gender = document.getElementById('gender').value;
             
             const data = {
-                type: type,
-                brandNo: brandNo,
-                seriesNo: seriesNo,
-                collectionId: collectionId,
+                selectedFacet: selectedFacet,
+                searchableBrands: searchableBrands,
+                screen: screen,
                 gender: gender
             };
             
@@ -84,17 +80,15 @@
         }
         
         function sendToAndroid() {
-            const type = document.querySelector('input[name="type"]:checked').value;
-            const brandNo = document.getElementById('brands').value;
-            const seriesNo = document.getElementById('series').value;
-            const collectionId = document.getElementById('collectionId').value;
+            const selectedFacet = document.querySelector('input[name="selectedFacet"]:checked').value;
+            const searchableBrands = document.getElementById('searchableBrands').value;
+            const screen = document.getElementById('screen').value;
             const gender = document.getElementById('gender').value;
             
             const data = {
-                type: type,
-                brandNo: brandNo,
-                seriesNo: seriesNo,
-                collectionId: collectionId,
+                selectedFacet: selectedFacet,
+                searchableBrands: searchableBrands,
+                screen: screen,
                 gender: gender
             };
             
