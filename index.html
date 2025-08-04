@@ -44,6 +44,12 @@
     <pre id="output"></pre>
 
     <script>
+        // 네이티브에서 호출될 함수 (메시지 수신 시 팝업 표시)
+        function onMessageReceived(data) {
+            alert('네이티브에서 메시지 수신:\n' + JSON.stringify(data, null, 2));
+            document.getElementById('output').textContent = '수신된 데이터:\n' + JSON.stringify(data, null, 2);
+        }
+        
         function sendToIOS() {
             const selectedFacet = document.querySelector('input[name="selectedFacet"]:checked').value;
             const searchableBrands = document.getElementById('searchableBrands').value;
@@ -74,7 +80,6 @@
                         stringData[key] = String(value);
                     }
                     window.webkit.messageHandlers.requestCollectionFacet.postMessage(stringData);
-                    alert('iOS로 메시지 전송 완료');
                 } catch (error) {
                     console.error('postMessage 오류:', error);
                     alert('메시지 전송 중 오류 발생: ' + error.message);
@@ -108,7 +113,6 @@
             if (window.android29cm && window.android29cm.requestCollectionFacet) {
                 console.log('Android 메시지 전송 시도:', JSON.stringify(data));
                 window.android29cm.requestCollectionFacet(JSON.stringify(data));
-                alert('Android로 메시지 전송 완료');
             } else {
                 console.log('android29cm interface not found');
                 alert('Android WebView에서만 동작합니다.\nandroid29cm: ' + !!window.android29cm + '\nrequestCollectionFacet: ' + !!(window.android29cm?.requestCollectionFacet));
