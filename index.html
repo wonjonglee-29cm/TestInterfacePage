@@ -50,6 +50,23 @@
             document.getElementById('output').textContent = '수신된 데이터:\n' + JSON.stringify(data, null, 2);
         }
         
+        // postMessage 이벤트 리스너 추가
+        window.addEventListener('message', function(event) {
+            console.log('postMessage 수신:', event.data);
+            
+            const payload = event.data.payload || {};
+            alert('네이티브에서 postMessage 수신:\n' + JSON.stringify(event.data, null, 2));
+            document.getElementById('output').textContent = 'postMessage 수신:\n' + JSON.stringify(event.data, null, 2);
+            
+            // payload 데이터로 폼 필드 업데이트
+            if (payload.searchableBrands) {
+                document.getElementById('searchableBrands').value = payload.searchableBrands;
+            }
+            if (payload.gender) {
+                document.getElementById('gender').value = payload.gender;
+            }
+        });
+        
         function sendToIOS() {
             const selectedFacet = document.querySelector('input[name="selectedFacet"]:checked').value;
             const searchableBrands = document.getElementById('searchableBrands').value;
